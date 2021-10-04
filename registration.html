@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+
+<body>
+    <form id="register-form">
+        <input id="username" type="text" placeholder="Username" value="" />
+        <input id="pw" type="password" placeholder="Password" value="" />
+        <input id="email" type="email" placeholder="E-mail" value="" />
+        <input type="submit" value="register" onclick="store()">
+    </form>
+
+    <form id="login-form">
+        <input id="userName" type="text" placeholder="Enter Username" value="" />
+        <input id="userPw" type="password" placeholder="Enter Password" value="" />
+        <input type="submit" value="Login" onClick="login()" />
+    </form>
+
+
+
+    <p>
+        <input type="text" id="number">
+        <input type="submit" value="Jumlahkan" onclick="clickSum()">
+    <div id="result"></div>
+    </p>
+    <script>
+        var username = document.getElementById('username')
+        var pw = document.getElementById('pw')
+        var email = document.getElementById('email')
+
+        function store() {
+            localStorage.setItem('username', username.value);
+            localStorage.setItem('pw', pw.value);
+            localStorage.setItem('email', email.value);
+        }
+
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+
+
+        function login() {
+            let usernameCookies = getCookie("username");
+            let passwordCookies = getCookie("password");
+            var userName = document.getElementById('userName').value
+            var password = document.getElementById('userPw').value
+
+
+            if (usernameCookies == userName) {
+                console.log(usernameCookies == userName)
+                alert("Welcome again " + usernameCookies);
+            } else {
+                if (userName != "" && userName != null) {
+                    document.cookie = `username=${userName}; expires= Tue, 5 Oct 2021 12:00:00 UTC`;
+                }
+                if (pw != "" && pw != null) {
+                    document.cookie = `password=${password}; expires= Tue, 5 Oct 2021 12:00:00 UTC`;
+                }
+                alert("Welcome to our website" + userName)
+            }
+        }
+
+        // document.cookie = "username=Putra; expires= Tue, 5 Oct 2021 12:00:00 UTC";
+        // document.cookie = "password=12345678; expires= Tue, 5 Oct 2021 12:00:00 UTC";
+
+
+        function clickSum() {
+            var num = document.getElementById("number").value;
+            console.log(num)
+
+            if (typeof (Storage) !== "undefined") {
+                if (sessionStorage.clicksum) {
+                    sessionStorage.clicksum = Number(sessionStorage.clicksum) + Number(num);
+                } else {
+                    sessionStorage.clicksum = num;
+                }
+                document.getElementById("result").innerHTML = `Total Result = ${sessionStorage.clicksum}`
+            } else {
+                document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
+            }
+            document.getElementById("number").value = ""
+        }
+    </script>
+</body>
+
+</html>
